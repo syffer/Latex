@@ -817,27 +817,31 @@
 \makeatletter 
 	\def \currentNumberingScheme {\expandafter\string\pagesLTS@pnc}
 	\def \lastPageCurrentNumberingScheme {pagesLTS.\currentNumberingScheme} 
+	\def \thecurrentlastpage {\lastpageref{\lastPageCurrentNumberingScheme}}
 \makeatother
 
+% \leftmark : top level structure (chapter for report)
+% \rightmark : next top level structure (section for report) 
+
+%\ifundef{\chapter}{ } {
+	% on modifie la façon d'afficher le titre du chapitre
+	%\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\ #1}}{}} 
+%}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Style fancy
 % - style des pages normales
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\fancyhead[L]{} 	% \lhead{\nouppercase{\rightmark}}
+\fancyhead[L]{\rightmark} 	% \lhead{\nouppercase{\rightmark}}
+\fancyhead[R]{\leftmark} 
 
 \renewcommand{\headrulewidth}{0.4pt}	% trait horizontal en-tête
 \renewcommand{\footrulewidth}{0.4pt}	% trait horizontal pied de page
 
 \fancyfoot[L]{\emph{École Polytechnique de l'Université de Nantes, Département Informatique}}
-\fancyfoot[C]{}	% ou : \fancyfoot[C]{} \cfoot
-\fancyfoot[R]{ Page ~\thepage ~ / ~\lastpageref{\lastPageCurrentNumberingScheme} }
-
-\ifundef{\chapter}{ } {
-	% on modifie la façon d'afficher le titre du chapitre
-	\renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{\ #1}}{}} 
-}
+\fancyfoot[C]{}	% ou : \cfoot
+\fancyfoot[R]{ Page ~\thepage ~ / ~\thecurrentlastpage }
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -850,8 +854,6 @@
 
 	\renewcommand{\headrulewidth}{0pt}
 	\renewcommand{\footrulewidth}{0.4pt}
-
-	\fancyfoot[R]{ Page ~\thepage ~ / ~\lastpageref{\lastPageCurrentNumberingScheme} } 
 }
 
 
@@ -862,14 +864,10 @@
 	% affiche le compteur en .1, .2, .3
 	\renewcommand*{\thepage}{.\arabic{page}}	
 	
-    % modifie le footer pour avoir le bon compteur de pages (le Romain)
-    \fancyfoot[R]{ Page ~\thepage ~ / ~\lastpageref{\lastPageCurrentNumberingScheme} }
-
-	% on modifie le style plain pour avoir le bon compteur
+	% on modifie le style plain 
 	\fancypagestyle{plain}{
 		\fancyhead[R]{}
 		\renewcommand{\headrulewidth}{0pt}
-		\fancyfoot[R]{Page ~\thepage ~ / ~\lastpageref{\lastPageCurrentNumberingScheme}}
 	}
 
 }
