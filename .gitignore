@@ -1,5 +1,5 @@
 
-##### partie latex  
+######################### partie latex  
 
 *.aux
 *.glo
@@ -29,3 +29,8 @@ _minted-*
 build
 
 *.pdf 
+
+
+######################### Windows - fichiers inutiles 
+
+*.db 
