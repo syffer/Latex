@@ -1,0 +1,140 @@
+
+\section{Les tableaux}
+
+
+\subsection{tableau normal}
+
+% exemple d'un tableau simple
+\begin{table}[H]
+	\centering
+	\caption{Légende du tableau}	
+	\label{tab:label_tableau}
+	\begin{tabular}{|l|l|l|}
+		% header
+		\hline \textbf{colonne 1} & \textbf{colonne 2} & \textbf{colonne 3} \\
+		
+		% le contenu
+		\hline texte & texte & texte \\
+		\hline 
+	\end{tabular}
+\end{table}
+
+
+\subsection{tableau avec du texte long}
+
+\begin{table}[H]
+	\centering
+	\caption{tableau avec du texte long}	
+	\label{tab:label_tableau_texte_long}
+	\begin{tabular}{|p{12cm}|p{3cm}|}
+		% header
+		\hline \textbf{colonne 1} & \textbf{colonne 2} \tabularnewline
+		
+		% le contenu
+		\hline 
+			\raggedright \lipsum[1] & 
+			\centering texte 
+			\tabularnewline
+		\hline 
+	\end{tabular}
+\end{table}
+
+
+\subsection{tableau ayant beaucoup de lignes}
+
+
+% pour utiliser les listes dans le tableau
+% \setlist[itemize]{label=$-$,leftmargin=*,parsep=0cm,itemsep=0cm,topsep=0cm}
+
+
+% tableau de 2 colonnes, avec texte centré	
+% longtable pour les long tableaux sur plusieurs pages
+%\setlength\LTleft{-1.5cm}		% décaler le tableau sur la gauche
+\begin{longtable}{|c|c|}
+	
+	% entête de la première page
+	\hline \textbf{colonne 1} & \textbf{colonne 2} \\ 
+	\hline
+	\endfirsthead
+	
+	%\hline
+	%\endfirstfoot 	
+	
+	% Entête de toutes les pages	
+	%\hline
+	%\endhead
+	
+	% Bas de toutes les pages
+	%\hline
+	%\endfoot		
+	
+	% Contenu du tableau 
+	\hline 	du texte &	\\ 
+	\hline
+
+\end{longtable}
+
+
+
+\subsection{tabularx}
+
+
+\begin{table}[H]
+	\centering
+	\caption{tabularx}	
+	\label{tab:tabularx}
+	\begin{tabularx}{\textwidth}{lX}
+\hline 
+Force    & Force  is a vector  quantity  defined  as the  rate of  change  of
+the  momentum  of the  body  that  would  be  induced  by that force  acting  alone . \\ 
+\hline 
+Moment  of a force   & Moment  of a force  with  respect  to an  origin  is
+defined  as the  cross  product  of the  position  vector (with  respect  to
+the  same  origin) and  the force . \\
+\hline 
+	\end{tabularx}
+\end{table}
+
+
+
+\subsection{Un beau tableau}
+
+
+\begin{table}[H]
+	\centering
+	\caption{beautiful table}	
+	\label{tab:beautiful}
+	\begin{tabular}{llr}  
+		\toprule
+		\multicolumn{2}{c}{Item} \\
+		\cmidrule(r){1-2}
+		Animal    & Description & Price (\$) \\
+		\midrule
+		Gnat      & per gram    & 13.65      \\
+		          &    each     & 0.01       \\
+		Gnu       & stuffed     & 92.50      \\
+		Emu       & stuffed     & 33.33      \\
+		Armadillo & frozen      & 8.99       \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+% avec dcolumn 
+% - http://tex.stackexchange.com/questions/141671/combine-column-types-defined-in-dcolumn-with-tabularx 
+\begin{table}
+	\centering
+	\caption{table using dcolumn}
+	\begin{tabular}{ld{3}}
+
+		\toprule
+		        &  \multicolumn{1}{l}{\centering col A} \\
+		\cmidrule(lr){2-2} 
+		\midrule  
+		   North &      2,228  \\    
+		   South &        689.2 \\
+		\bottomrule
+
+	\end{tabular}     
+\end{table}
+
