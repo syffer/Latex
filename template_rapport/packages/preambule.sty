@@ -8,6 +8,7 @@
 % - obtenir le schema de numérotation actuel et sa dernière page (footer automatique)
 % - simplification de la partie header/footer 
 % - authblk (multiple auteurs avec différentes affiliations)
+% - bib style apa pour french et english 
 %
 % mise à jour 2.1.1 :
 % - correction listoflisting (problème d'indentation)
@@ -83,13 +84,6 @@
 \PassOptionsToPackage{\package@langue}{varioref}
 \PassOptionsToPackage{\package@langue}{cleveref}
 
-
-\ifthenelse{\equal{\package@bibStyle}{apa} \AND \NOT\equal{\package@langue}{american}}{ 
-	\PackageError{preambule}{With apa, you have to switch the language to american. Use the option : 'langue=american' (and compile twice, as you just change the language)}{}
-}{}
-
-
-%\newcommand{langue}{\expandafter\package@langue}
 
 
 % ********************************************************************
@@ -355,7 +349,7 @@
 % ********************************************************************
 \usepackage[
 	hyperref = true,
-	backref = true,
+	backref = true, 		% back reference to the citation (index like)
 	backend = biber,
 	sorting = none, 		% à "none" pour ranger par ordre d'apparition
 	style = \package@bibStyle, 
@@ -363,8 +357,12 @@
 % explications : http://www.latex-tutorial.com/tutorials/beginners/lesson-7/
 % \printbibliography[heading=bibintoc] % ajouter dans la toc 
 
+
+% for APA-style, maps a babel/polyglossia language identifier to an lbx file (doc p.223)
+% - http://tex.stackexchange.com/questions/312091/citations-in-small-caps-using-biblatex-in-french-apa-style 
 \ifthenelse{\equal{\package@bibStyle}{apa}}{
-	\DeclareLanguageMapping{american}{american-apa}
+	\DeclareLanguageMapping{\package@langue}{\package@langue-apa}
+	%\DeclareCaseLangs{french} 
 }
 
 
