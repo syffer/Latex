@@ -45,7 +45,7 @@
 % - changer color en xcolor
 %
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{preambule}[2016/07/08 v2.2 preambule perso]
+\ProvidesPackage{packages/preambule}[2016/07/08 v2.2 preambule perso]
 
 \RequirePackage{atveryend}  % chargé pour éviter erreurs entre pagelst et etoolbox
 \RequirePackage{etoolbox}	% \newtoggle, \toggletrue, \ifbool, \iftoggle 
@@ -583,6 +583,9 @@
 \ifundef{\chapter}{}{
 	\renewcommand{\thelisting}{\ifnum\value{chapter}>0\relax\thechapter.\fi\arabic{listing}}
 }
+
+% fix pour \autoref{listing} (hyperref)
+\providecommand*{\listingautorefname}{\listingscaption}
 
 % ajout d'une entrée de la lol dans la toc (tocbibind)
 % - http://ctan.imsc.res.in/macros/latex/contrib/tocbibind/tocbibind.pdf 
