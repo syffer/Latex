@@ -806,6 +806,12 @@
 \setglossarystyle{listgroup} 	% ordonner alphabétiquement, en les séparant (A, B, C, ...)
 \makeglossaries					% permet de générer le glossaire
 
+% modifier header glossaire (\leftmark seulement)
+% - http://tex.stackexchange.com/questions/78704/make-the-glossary-title-upper-case-in-header 
+\renewcommand{\glossarymark}[1]{ 
+	\markboth{#1}{}
+}
+
 
 
 % ********************************************************************
