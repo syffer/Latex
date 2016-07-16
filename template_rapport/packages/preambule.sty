@@ -324,7 +324,7 @@
 \usepackage{footnote} 					% \begin{savenotes} pour dans tableaux 
 \makesavenoteenv{tabular} 				% sauvegarder les footnotes des tableaux automatiquement 
 \usepackage[bottom, multiple]{footmisc}	% footnote toujours collé en bas de page
-\usepackage{fnpct}						% multiple footnotes 1, 2, 3, et autre : \multfootnote{;;} (broken...!)
+\usepackage{fnpct}						% multiple footnotes 1, 2, 3, et autre : \footnote{;;} 
 %\setfnpct{dont-mess-around} % uncomment if don't want the kerning and punctuation switching
 
 
@@ -380,9 +380,12 @@
 \let\oldPrintbibliography\printbibliography
 \renewcommand*{\printbibliography}[1][heading=bibintoc]{
 	\nocite{*}	% affiche les références non utilisées également 
+
+	\markboth{\leftmark}{} 	% modifier header bibliographie (References)
+
 	\oldPrintbibliography[#1]
 
-	\markboth{\leftmark}{}	% modifier header bibliographie 
+	\markboth{\leftmark}{}	% modifier header bibliographie (Bibliography)
 }
 
 
