@@ -799,8 +799,10 @@
 \usepackage{cleveref}	% \cref{...} : eq. 1, fig. 1, tab. 1
 
 
-\usepackage[symbol=${}^{\scriptscriptstyle\uparrow}\,\,\,$]{footnotebackref} % ne marche pas bien avec Babel (car babel redéfinie le numéro de note)
+\usepackage[symbol=${}^{\scriptscriptstyle\uparrow}\,\,\,$]{footnotebackref} 
+% sans redéfinir symbol, ne marche pas bien avec Babel (car babel redéfinie le numéro de note)
 % $\mkern-3\thinmuskip{}^{\scriptscriptstyle\uparrow}\,\,\,$
+
 
 % résoudre les problèmes d'indentation dans toc 
 % - \bookmarksetup{startatroot} 
