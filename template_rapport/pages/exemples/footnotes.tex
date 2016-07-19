@@ -1,0 +1,36 @@
+\section{Les notes de bas de page / footnotes}
+
+Voici une note de bas de page\footnote{une note de bas de page}. En voici plusieurs à la fois\footnote{1 ; 2}. test \multfootnote{un;deux;trois}. Ceci est aussi possible mais ne marche pas bien avec les '.', donc ne pas le faire \footnote{première}\footnote{deuxième}.
+
+~~
+
+Des footnotes dans un tableau 
+
+\begin{savenotes}
+%\begin{table}[H]
+%	\centering
+	\begin{tabular}{c} 
+		\toprule
+     	un tableau \footnote{une footnote dans un tableau, mis en bas de la page} \\
+		\bottomrule
+	\end{tabular}
+%	\caption{Avec des footnotes en bas de page}
+%\end{table}
+\end{savenotes}
+
+Des footnotes en dessous d'un tableau 
+
+
+%\begin{table}[H]
+%	\centering
+	\begin{minipage}{3cm}
+	\begin{tabular}{lcc}
+        \toprule
+        A & 1 & 2 \footnote{une footnote en dessous du tableau} \\
+        \bottomrule
+    \end{tabular}
+	\end{minipage}
+%	\caption{Footnotes juste en dessous de moi}
+%\end{table}
+
+
