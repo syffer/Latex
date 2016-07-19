@@ -63,10 +63,10 @@
 	prefix = package@
 }
 
-\DeclareBoolOption[false]{colorLinks}	% affiche la couleur des hyperrefs (défaut: faux) 
+\DeclareBoolOption[false]{colorlinks}	% affiche la couleur des hyperrefs (défaut: faux) 
 \DeclareBoolOption[false]{debug}		% affiche informations de debug (défaut: false) 
 \DeclareBoolOption[false]{minitoc}		% utiliser minitoc entre les chapitres (non fini)
-\DeclareStringOption[alphabetic]{bibStyle}[alphabetic] 
+\DeclareStringOption[alphabetic]{bybstyle}[alphabetic] 
 \DeclareStringOption[french]{langue}[french] 
 
 % autres options 
@@ -374,7 +374,7 @@
 	backref = true, 	% back reference to the citation (index like)
 	backend = biber,
 	sorting = none, 	% à "none" pour ranger par ordre d'apparition
-	style = \package@bibStyle, 
+	style = \package@bybstyle, 
 ]{biblatex}
 % explications : http://www.latex-tutorial.com/tutorials/beginners/lesson-7/
 % \printbibliography[heading=bibintoc] % ajouter dans la toc 
@@ -382,7 +382,7 @@
 
 % for APA-style, maps a babel/polyglossia language identifier to an lbx file (doc p.223)
 % - http://tex.stackexchange.com/questions/312091/citations-in-small-caps-using-biblatex-in-french-apa-style 
-\ifthenelse{\equal{\package@bibStyle}{apa}}{
+\ifthenelse{\equal{\package@bybstyle}{apa}}{
 	\DeclareLanguageMapping{\package@langue}{\package@langue-apa}
 	%\DeclareCaseLangs{french} 
 }
@@ -777,7 +777,7 @@
 	pdfpagelabels, 		% write the value of \thepage to the PDF file (say ‘ii (4 of 40)’)
 	% hyperfootnotes=false, 
 	bookmarks, 
-	colorlinks = \ifbool{package@colorLinks}{true}{false},  
+	colorlinks = \ifbool{package@colorlinks}{true}{false},  
 	linkcolor = blue,	%red 
 	%anchorcolor = black, 
 	citecolor = red, %green
