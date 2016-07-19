@@ -1,5 +1,5 @@
 \RequirePackage[l2tabu, orthodox]{nag}
-\documentclass[11pt, a4paper]{report}
+\documentclass[11pt, a4paper]{article}
 
 \usepackage[colorLinks, debug]{packages/preambule}  
 \input{glossaire/termes} 
@@ -27,23 +27,20 @@
 %
 %\input{pages/conclusion} 
 
-\section{test}
-\newpage \gls{mot} \footnote{test}\footnote{un zouehz zefij ; deux ezpj zepij zepji}
-\cite{bib:reinforcement_learning_in_robotics}
 
-$\phi = div(\rho)$
-
-
-\input{pages/exemples/labels}
+%\input{pages/exemples/labels}
 \input{pages/exemples/codes}
-\input{pages/exemples/tableaux}
+%\input{pages/exemples/tableaux}
+%\input{pages/exemples/figures}
+\input{pages/exemples/footnotes}
 %\input{pages/exemples/math}
 
+\gls{mot} \cite{bib:reinforcement_learning_in_robotics}
 
 \printbibliography 
 \listoffigures 
 \listoftables 
-\listoflistings
+\listoflistings 
 \printglossary 
 
 

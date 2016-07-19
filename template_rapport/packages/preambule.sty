@@ -64,8 +64,8 @@
 }
 
 \DeclareBoolOption[false]{colorLinks}	% affiche la couleur des hyperrefs (défaut: faux) 
-\DeclareBoolOption[false]{debug}		% affiche bande noir quand "Overfull \hbox" (défaut: false) 
-\DeclareBoolOption[false]{minitoc}		% afficher les minitoc entre les chapitres (non fini)
+\DeclareBoolOption[false]{debug}		% affiche informations de debug (défaut: false) 
+\DeclareBoolOption[false]{minitoc}		% utiliser minitoc entre les chapitres (non fini)
 \DeclareStringOption[alphabetic]{bibStyle}[alphabetic] 
 \DeclareStringOption[french]{langue}[french] 
 
@@ -91,8 +91,8 @@
 % ********************************************************************
 
 % Marges de la page
+% - 'headheight' augmenté afin d'éviter des warnings
 \usepackage[top=0.70in, bottom=0.70in, left=0.8in, right=0.80in, headheight=27.06pt]{geometry} 
-% 'headheight' augmenté afin d'éviter warnings
 
 
 
@@ -107,8 +107,11 @@
 	\frenchbsetup{StandardLists=true} 	% evite erreurs de personalisation listes
 }
 
-\usepackage[autolanguage]{numprint}	% écrire nombre selon langue (\numprint), après babel !
-\usepackage[detect-all]{siunitx} 	% unités et format des nombres (km-1, 1/km) : \num \SI{10}{\hertz}
+% écriture des nombres 
+% \unit{\numprint{''nombre''}}{\''unité''}
+% - https://fr.wikibooks.org/wiki/LaTeX/%C3%89crire_de_la_physique 
+\usepackage[autolanguage]{numprint}	% selon la langue (\numprint[unite]), après babel !
+\usepackage[detect-all]{siunitx} 	% unités et format (km-1, 1/km) : \num \SI{10}{\hertz}
 
 
 
@@ -316,16 +319,30 @@
 \newcolumntype{d}[1]{D{,}{.}{#1}} 	% d{nbDigitBefore.nbDigitAfter}
 \newcommand{\otoprule}{\midrule[\heavyrulewidth]} % after \toprule (delimite header)
 
+%\usepackage[flushleft]{threeparttable} %tablenotes
+
 
 
 % ********************************************************************
 % Notes de bas de pages
 % ********************************************************************
-\usepackage{footnote} 					% \begin{savenotes} pour dans tableaux 
-\makesavenoteenv{tabular} 				% sauvegarder les footnotes des tableaux automatiquement 
-\usepackage[bottom, multiple]{footmisc}	% footnote toujours collé en bas de page
-\usepackage{fnpct}						% multiple footnotes 1, 2, 3, et autre : \footnote{;;} 
-%\setfnpct{dont-mess-around} % uncomment if don't want the kerning and punctuation switching
+\usepackage{footnote} 			% \begin{savenotes} pour dans tableaux 
+%\makesavenoteenv{tabular} 		% sauvegarder les footnotes des tableaux automatiquement 
+\usepackage[bottom]{footmisc}	% footnote toujours collé en bas de page 
+\usepackage[multiple]{fnpct}	% multiple footnotes '1, 2' avec \footnote{1;2}
+% - fnpct incompatible avec footnote : \makesavenoteenv 
+
+% fix pour \multfootnote 
+% - babel redéfini ';' au début du document 
+% - http://tex.stackexchange.com/questions/320066/incompatibility-between-french-babel-and-fnpct-multfootnote 
+% - http://tex.stackexchange.com/questions/121496/is-afterendpreamble-really-executing-code-after-any-atbegindocument-code
+\shorthandon{;} 
+\setfnpct{mult-fn-delim={;}}
+\shorthandoff{;} 
+
+
+% autre solution 
+% - http://tex.stackexchange.com/questions/40072/incompatibility-between-footmisc-option-multiple-and-hyperref 
 
 
 
@@ -354,9 +371,9 @@
 % ********************************************************************
 \usepackage[
 	hyperref = true,
-	backref = true, 		% back reference to the citation (index like)
+	backref = true, 	% back reference to the citation (index like)
 	backend = biber,
-	sorting = none, 		% à "none" pour ranger par ordre d'apparition
+	sorting = none, 	% à "none" pour ranger par ordre d'apparition
 	style = \package@bibStyle, 
 ]{biblatex}
 % explications : http://www.latex-tutorial.com/tutorials/beginners/lesson-7/
@@ -377,6 +394,7 @@
 % - http://tex.stackexchange.com/questions/89884/bibliography-and-headers-with-titleps-and-biblatex 
 % (2) afficher toute la bibliographie même celle non utilisées
 % (3) modifier header bibliographie (avant \leftmark = \rightmark = name)
+% - http://tex.stackexchange.com/questions/113014/removing-section-name-in-heading-of-reference-page 
 \let\oldPrintbibliography\printbibliography
 \renewcommand*{\printbibliography}[1][heading=bibintoc]{
 	\nocite{*}	% affiche les références non utilisées également 
@@ -754,11 +772,10 @@
 % ********************************************************************
 \usepackage[
 	% dvips, % commented for pdflatex
-	plainpages = false, 	% make page anchor using the formatted form of the page number
-	pdfpagelabels, 			% write the value of \thepage to the PDF file (say ‘ii (4 of 40)’)
+	linktoc = all, 		% links on title and page number in toc 
+	plainpages = false, % make page anchor using the formatted form of the page number
+	pdfpagelabels, 		% write the value of \thepage to the PDF file (say ‘ii (4 of 40)’)
 	% hyperfootnotes=false, 
-	% pdftitle = {},
-	% pdfborder = {0 0 0}, % lance un warning 
 	bookmarks, 
 	colorlinks = \ifbool{package@colorLinks}{true}{false},  
 	linkcolor = blue,	%red 
@@ -768,6 +785,8 @@
 	%menucolor = red, 
 	%runcolor = cyan, 
 	%urlcolor = magenta, 
+	% pdfborder = {0 0 0}, % lance un warning 
+	% pdftitle = {},
 	pdfauthor = {Maxime PINEAU}, 
 ]{hyperref} % liens dans le PDF
 %\hypersetup{...} 
@@ -780,7 +799,7 @@
 \usepackage{cleveref}	% \cref{...} : eq. 1, fig. 1, tab. 1
 
 
-\usepackage[symbol=${}^{\scriptscriptstyle\uparrow}\,\,\,$]{footnotebackref} % ne marche pas bien avec Babel
+\usepackage[symbol=${}^{\scriptscriptstyle\uparrow}\,\,\,$]{footnotebackref} % ne marche pas bien avec Babel (car babel redéfinie le numéro de note)
 % $\mkern-3\thinmuskip{}^{\scriptscriptstyle\uparrow}\,\,\,$
 
 % résoudre les problèmes d'indentation dans toc 
@@ -796,6 +815,8 @@
 % ********************************************************************
 \ifbool{package@minitoc} {
 	\usepackage{minitoc}
+	% \dominitoc 	% avant \tableofcontents 
+	% \dominilof 	% avant \listoffigures
 }
 
  
@@ -896,10 +917,22 @@
 
 \ifbool{package@debug}{
 	
-	\overfullrule=2cm 		% met une barre noire lors d'un warning "Overfull \hbox"
+	% met une barre noire lors d'un warning "Overfull \hbox" 
+	\overfullrule=2cm 		
+
+	% afficher les labels 
+	% - http://tex.stackexchange.com/questions/148579/tweak-showlabels-showkeys-wrap-the-label 
+	\usepackage[inline]{showlabels} 
+	\showlabels{cite}
+	\showlabels{ref}
+	%\showlabels{pageref}
+
+	\renewcommand{\showlabelfont}{\raggedright\normalfont\small\ttfamily\color{gray}}
+	\renewcommand{\showlabelsetlabel}[1]{{\showlabelfont \{#1\}}} 	% ajouter {}
+	\renewcommand{\showlabelrefline}{\hrule width 0pt height 1.6ex depth 0pt} 	% supprimer |
 
 	%\usepackage[color]{showkeys}	% afficher les noms des références à coté du lien 
-	%\usepackage{showidx}	% afficher les index dnas la marge où ils sont utilisés
+	%\usepackage{showidx}	% afficher les index dans la marge où ils sont utilisés
 }
 
 
