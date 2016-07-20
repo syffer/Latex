@@ -334,12 +334,22 @@
 
 % fix pour \multfootnote 
 % - babel redéfini ';' au début du document 
+% - \shorthandon commande de babel 
 % - http://tex.stackexchange.com/questions/320066/incompatibility-between-french-babel-and-fnpct-multfootnote 
 % - http://tex.stackexchange.com/questions/121496/is-afterendpreamble-really-executing-code-after-any-atbegindocument-code
-\shorthandon{;} 
-\setfnpct{mult-fn-delim={;}}
-\shorthandoff{;} 
+%\makeatletter
+\newcommand{\isnotshortcut}[1]{
+	\@ifundefined{bbl@active@\string#1}
+}
+%\makeatother
 
+\AtBeginDocument{
+	\isnotshortcut{;}{}{
+		\shorthandon{;} 
+		\setfnpct{mult-fn-delim={;}}
+		\shorthandoff{;}
+	}
+}
 
 % autre solution 
 % - http://tex.stackexchange.com/questions/40072/incompatibility-between-footmisc-option-multiple-and-hyperref 

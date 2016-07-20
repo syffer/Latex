@@ -1,7 +1,7 @@
 \RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[11pt, a4paper]{article}
 
-\usepackage[colorlinks, debug]{packages/preambule}  
+\usepackage[colorlinks, debug, langue=english]{packages/preambule}  
 \input{glossaire/termes} 
 \addbibresource{bibliographie/bibliographie.bib} 
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#biblatex
@@ -44,10 +44,12 @@
 \printglossary 
 
 
-%\newpage
-%\pagenumbering{Roman}	% numérotation .I, .II, .III
-%\pagestyle{appendix}
-%\appendix	% début des appendices, chapitre numéroté alphabétiquement
+\newpage
+\pagenumbering{Roman}	% numérotation .I, .II, .III
+\pagestyle{appendix}
+\appendix	% début des appendices, chapitre numéroté alphabétiquement
+
+test 
 
 %\addcontentsline{toc}{part}{Annexes}
 %\chaptermark{Annexes}
