@@ -45,7 +45,7 @@
 % - changer color en xcolor
 %
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{packages/preambule}[2016/07/08 v2.2 preambule perso]
+\ProvidesPackage{packages/preambule}[2016/07/20 v2.3 preambule perso]
 
 \RequirePackage{atveryend}  % chargé pour éviter erreurs entre pagelst et etoolbox
 \RequirePackage{etoolbox}	% \newtoggle, \toggletrue, \ifbool, \iftoggle 
@@ -101,11 +101,12 @@
 % - langue passée avec kvoptions 
 % - http://tex.stackexchange.com/questions/30013/pass-keyval-string-option-to-babel/30150#30150
 % ********************************************************************
-\usepackage{babel}	% [\package@langue]
+\usepackage{babel}	% [\package@langue] 
+\usepackage{iflang}	% IfLanguagePatterns{}{then}{else} \IfLanguageName
 
-\ifthenelse{\equal{\package@langue}{french}}{
+\IfLanguageName{french}{
 	\frenchbsetup{StandardLists=true} 	% evite erreurs de personalisation listes
-}
+}{}
 
 % écriture des nombres 
 % \unit{\numprint{''nombre''}}{\''unité''}
@@ -259,20 +260,12 @@
 % voir : http://daniel.flipo.free.fr/frenchb/frenchb-doc.pdf
 %\ifthenelse{\equal{\package@langue}{french}} {
 \newlength\mylabelwidth
-\newcommand*{\mylabel}{\textendash}  % ou \textemdash (tiret plus long)
+\newcommand*{\mylabel}{\textemdash}  % ou \textendash (tiret plus court)
 \settowidth{\mylabelwidth}{\mylabel}
+\setlist[itemize]{label=\mylabel, nosep}
 \setlist[1]{labelindent=\parindent}
-\setlist[itemize]{
-	label=\mylabel, nosep, 
+\setlist{
 	labelwidth=\mylabelwidth,
-	itemsep=0.4ex plus 0.2ex minus 0.2ex,
-	parsep=0.4ex plus 0.2ex minus 0.2ex,
-	topsep=0.8ex plus 0.4ex minus 0.4ex,
-	partopsep=0.4ex plus 0.2ex minus 0.2ex,
-	leftmargin=!
-}
-\setlist{ 
-	labelwidth=\mylabelwidth, 
 	itemsep=0.4ex plus 0.2ex minus 0.2ex,
 	parsep=0.4ex plus 0.2ex minus 0.2ex,
 	topsep=0.8ex plus 0.4ex minus 0.4ex,
@@ -292,7 +285,7 @@
 \usepackage{wrapfig}	% faire flotter une figure dans un paragraphe
 \usepackage{grffile}	% autorise les " " dans les noms 
 %\graphicspath{ {./images/} }   % répertoire des images par défaut
-\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[font=small, labelfont=bf]{caption}
 
 
 
@@ -308,7 +301,7 @@
 \usepackage{longtable}	% tableau de plus d'une page
 \usepackage{multirow}	% \multicolumn{nbCell}{alignement}{texte} + \multirow{nbLignes}*{texte}
 \usepackage{makecell}	% \thead 
-\usepackage{hhline}		% nouvelle gestion des lignes horizontales 
+%\usepackage{hhline}	% nouvelle gestion des lignes horizontales 
 
 % prochaines lignes pour palier à certains défauts des tableaux standards 
 \setcellgapes{1pt}  	
@@ -376,28 +369,25 @@
 
 
 % ********************************************************************
-% Bibliographie et citations
+% Bibliographie et citations 
+% - http://www.latex-tutorial.com/tutorials/beginners/lesson-7/ 
 % ********************************************************************
 \usepackage[
 	hyperref = true,
 	backref = true, 	% back reference to the citation (index like)
 	backend = biber,
-	sorting = none, 	% à "none" pour ranger par ordre d'apparition
+	sorting = none, 	% "none" pour ranger par ordre d'apparition
 	style = \package@bybstyle, 
 ]{biblatex}
-% explications : http://www.latex-tutorial.com/tutorials/beginners/lesson-7/
-% \printbibliography[heading=bibintoc] % ajouter dans la toc 
-
 
 % for APA-style, maps a babel/polyglossia language identifier to an lbx file (doc p.223)
 % - http://tex.stackexchange.com/questions/312091/citations-in-small-caps-using-biblatex-in-french-apa-style 
 \ifthenelse{\equal{\package@bybstyle}{apa}}{
 	\DeclareLanguageMapping{\package@langue}{\package@langue-apa}
-	%\DeclareCaseLangs{french} 
+	% \DeclareCaseLangs
 }
 
-
-\usepackage[babel=true]{csquotes} % pour la gestion des guillemets français.
+\DeclareCaseLangs*{\package@langue}
 
 % (1) biblio in toc by default (exept when passing arguments : heading=bibintoc) 
 % - http://tex.stackexchange.com/questions/89884/bibliography-and-headers-with-titleps-and-biblatex 
@@ -414,6 +404,10 @@
 
 	\markboth{\leftmark}{}	% modifier header bibliographie (Bibliography)
 }
+
+% pour la gestion des guillemets français.
+% - https://cs.sharelatex.com/learn/Typesetting_quotations 
+\usepackage[babel=true]{csquotes} 
 
 
 
@@ -614,6 +608,11 @@
 	\renewcommand{\listoflistingscaption}{Liste des listings} 
 }
 
+\addto\captionsenglish{ 
+	\renewcommand{\listoflistingscaption}{List of Listings} 
+}
+
+
 % compteur comme ceux des tableaux / figures 
 \ifundef{\chapter}{}{
 	\renewcommand{\thelisting}{\ifnum\value{chapter}>0\relax\thechapter.\fi\arabic{listing}}
@@ -764,6 +763,7 @@
 
 % ********************************************************************
 % Hyperreferences
+% - hyperfootnotes <- easily broken 
 % - http://www.tex.ac.uk/FAQ-pdfpagelabels.html 
 %
 % - package à mettre après hyperref :  		http://texblog.net/hyperref/
@@ -773,25 +773,22 @@
 % geometry (avec mag <> 1000), footnotebackref
 % ********************************************************************
 \usepackage[
-	% dvips, % commented for pdflatex
 	linktoc = all, 		% links on title and page number in toc 
 	plainpages = false, % make page anchor using the formatted form of the page number
 	pdfpagelabels, 		% write the value of \thepage to the PDF file (say ‘ii (4 of 40)’)
-	% hyperfootnotes=false, 
 	bookmarks, 
+	% 
 	colorlinks = \ifbool{package@colorlinks}{true}{false},  
 	linkcolor = blue,	%red 
-	%anchorcolor = black, 
 	citecolor = red, %green
+	%anchorcolor = black, 
 	%filecolor = cyan,
 	%menucolor = red, 
 	%runcolor = cyan, 
 	%urlcolor = magenta, 
-	% pdfborder = {0 0 0}, % lance un warning 
-	% pdftitle = {},
 	pdfauthor = {Maxime PINEAU}, 
-]{hyperref} % liens dans le PDF
-%\hypersetup{...} 
+	% pdftitle = {}, 
+]{hyperref} 
 
 
 % packages après hyperref
@@ -846,12 +843,11 @@
 % En-têtes et Pieds de page
 % ********************************************************************
 \usepackage{fancyhdr}	% ajoute les styles pour les header / footer
-\usepackage{pageslts}	% pour compter le nombre de pages 	% packages/
+\usepackage{pageslts}	% pour compter le nombre de pages 	
 
 \fancyhf{} 			% to clear all predefined fields (compatibilité package nag, chercheur d'erreur)
 \pagestyle{fancy}	% utiliser style "fancy" (header/footer)
 %\pagenumbering{arabic}
-
 
 % obtenir le schema de numérotation actuel et sa dernière page 
 \newcommand{\currentNumberingScheme}{\expandafter\string\pagesLTS@pnc}
