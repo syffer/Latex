@@ -337,11 +337,9 @@
 % - \shorthandon commande de babel 
 % - http://tex.stackexchange.com/questions/320066/incompatibility-between-french-babel-and-fnpct-multfootnote 
 % - http://tex.stackexchange.com/questions/121496/is-afterendpreamble-really-executing-code-after-any-atbegindocument-code
-%\makeatletter
 \newcommand{\isnotshortcut}[1]{
 	\@ifundefined{bbl@active@\string#1}
 }
-%\makeatother
 
 \AtBeginDocument{
 	\isnotshortcut{;}{}{
@@ -451,10 +449,8 @@
 % pour ajouter d'autres "literates" en plus de ceux déjà existant (sans les effacer)
 % attention, ne prend pas l'étoile '*'
 % voir : http://tex.stackexchange.com/questions/149056/how-can-i-define-additional-literate-replacements-without-deleting-existing-ones
-\makeatletter
 \def\addToLiterate#1{\edef\lst@literate{\unexpanded\expandafter{\lst@literate}\unexpanded{#1}}}
 \lst@Key{moreliterate}{}{\addToLiterate{#1}}
-\makeatother
 
 % utilisé pour bloquer la commande \textcolor
 \newcommand{\textcolordummy}[2]{#2}
@@ -746,16 +742,11 @@
 %
 % - http://tex.stackexchange.com/questions/287947/figure-as-name-of-listings-in-listoflistings-with-minted-and-newfloat 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\AtBeginEnvironment{listing}{\setcounter{listing}{\value{lstlisting}}}
-%\AtEndEnvironment{listing}{\stepcounter{lstlisting}}
+% avoir le même compteur
+\AtBeginDocument{\let\c@listing\c@lstlisting} 
 
-\makeatletter
-	% avoir le même compteur
-	\AtBeginDocument{\let\c@listing\c@lstlisting} 
-
-	% résoudre problème avec tocbibind (listing devient la même chose que lstlisting) 
-	\let\l@listing\l@lstlisting 
-\makeatother
+% résoudre problème avec tocbibind (listing devient la même chose que lstlisting) 
+\let\l@listing\l@lstlisting 
 
 
 
@@ -862,11 +853,9 @@
 
 
 % obtenir le schema de numérotation actuel et sa dernière page 
-\makeatletter 
-	\def \currentNumberingScheme {\expandafter\string\pagesLTS@pnc}
-	\def \lastPageCurrentNumberingScheme {pagesLTS.\currentNumberingScheme} 
-	\def \thecurrentlastpage {\lastpageref{\lastPageCurrentNumberingScheme}}
-\makeatother
+\newcommand{\currentNumberingScheme}{\expandafter\string\pagesLTS@pnc}
+\newcommand{\lastPageCurrentNumberingScheme}{pagesLTS.\currentNumberingScheme}
+\newcommand{\thecurrentlastpage}{\lastpageref{\lastPageCurrentNumberingScheme}}
 
 % \leftmark : top level structure (chapter for report)
 % \rightmark : next top level structure (section for report) 
