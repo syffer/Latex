@@ -249,16 +249,17 @@
 
 % ********************************************************************
 % Listes
+% - incompatibilité enimitem/enumerate
+% - http://tex.stackexchange.com/questions/58852/possible-incompatibility-with-enumitem 
 % ********************************************************************
 \usepackage{paralist}	% une liste ayant ses éléments en ligne
-\usepackage{enumerate}	% changer labels des énumérateurs (listes, ...)
-\usepackage{enumitem}	% personaliser les listes 
+\usepackage[shortlabels]{enumitem}	% personaliser les listes 
 
 % on essaie d'imiter la présentation de Babel
 % voir : http://daniel.flipo.free.fr/frenchb/frenchb-doc.pdf
 %\ifthenelse{\equal{\package@langue}{french}} {
 \newlength\mylabelwidth
-\newcommand*{\mylabel}{\textemdash}  % ou \textendash (tiret plus court)
+\newcommand*{\mylabel}{\textendash}  % ou \textemdash (tiret plus long)
 \settowidth{\mylabelwidth}{\mylabel}
 \setlist[1]{labelindent=\parindent}
 \setlist[itemize]{
