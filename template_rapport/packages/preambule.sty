@@ -337,12 +337,12 @@
 % - \shorthandon commande de babel 
 % - http://tex.stackexchange.com/questions/320066/incompatibility-between-french-babel-and-fnpct-multfootnote 
 % - http://tex.stackexchange.com/questions/121496/is-afterendpreamble-really-executing-code-after-any-atbegindocument-code
-\newcommand{\isnotshortcut}[1]{
+\newcommand{\ifnotshorthand}[1]{
 	\@ifundefined{bbl@active@\string#1}
 }
 
 \AtBeginDocument{
-	\isnotshortcut{;}{}{
+	\ifnotshorthand{;}{}{
 		\shorthandon{;} 
 		\setfnpct{mult-fn-delim={;}}
 		\shorthandoff{;}
