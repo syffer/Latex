@@ -67,7 +67,7 @@
 \DeclareBoolOption[false]{debug}		% affiche informations de debug (défaut: false) 
 \DeclareBoolOption[false]{minitoc}		% utiliser minitoc entre les chapitres (non fini)
 \DeclareStringOption[alphabetic]{bybstyle}[alphabetic] 
-\DeclareStringOption[french]{langue}[french] 
+\DeclareStringOption[english,french]{languages}[french] % languages={english,french} 
 
 % autres options 
 % \DeclareOption* 
@@ -80,9 +80,9 @@
 %\ProcessOptions\relax
 \ProcessKeyvalOptions* 
 
-\PassOptionsToPackage{\package@langue}{babel}
-\PassOptionsToPackage{\package@langue}{varioref}
-\PassOptionsToPackage{\package@langue}{cleveref}
+\PassOptionsToPackage{\package@languages}{babel}
+\PassOptionsToPackage{\package@languages}{varioref}
+\PassOptionsToPackage{\package@languages}{cleveref}
 
 
 
@@ -92,7 +92,7 @@
 
 % Marges de la page
 % - 'headheight' augmenté afin d'éviter des warnings
-\usepackage[top=0.70in, bottom=0.70in, left=0.8in, right=0.80in, headheight=27.06pt]{geometry} 
+\usepackage[top=0.7in, bottom=0.7in, left=0.8in, right=0.8in, headheight=27.06pt]{geometry} 
 
 
 
@@ -383,11 +383,15 @@
 % for APA-style, maps a babel/polyglossia language identifier to an lbx file (doc p.223)
 % - http://tex.stackexchange.com/questions/312091/citations-in-small-caps-using-biblatex-in-french-apa-style 
 \ifthenelse{\equal{\package@bybstyle}{apa}}{
-	\DeclareLanguageMapping{\package@langue}{\package@langue-apa}
+	\DeclareLanguageMapping{\languagename}{\languagename-apa}
 	% \DeclareCaseLangs
 }
 
-\DeclareCaseLangs*{\package@langue}
+% define the list of languages for the sentence case text 
+% - first word capitalized, the rest to lower case (alter the text) 
+% - default command replace the current setting 
+% - * appends its arguments to the current setting 
+\DeclareCaseLangs*{\package@languages} 	
 
 % (1) biblio in toc by default (exept when passing arguments : heading=bibintoc) 
 % - http://tex.stackexchange.com/questions/89884/bibliography-and-headers-with-titleps-and-biblatex 
@@ -917,6 +921,9 @@
 	
 	% met une barre noire lors d'un warning "Overfull \hbox" 
 	\overfullrule=2cm 		
+
+	% afficher le layout d'une page avec \layout 
+	\usepackage{layout}
 
 	% afficher les labels 
 	% - http://tex.stackexchange.com/questions/148579/tweak-showlabels-showkeys-wrap-the-label 
