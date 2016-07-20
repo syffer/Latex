@@ -56,6 +56,7 @@
 
 % ********************************************************************
 % Les options 
+% - http://tex.stackexchange.com/questions/30013/pass-keyval-string-option-to-babel/30150#30150 
 % ********************************************************************
 
 \SetupKeyvalOptions{
@@ -382,6 +383,7 @@
 
 % for APA-style, maps a babel/polyglossia language identifier to an lbx file (doc p.223)
 % - http://tex.stackexchange.com/questions/312091/citations-in-small-caps-using-biblatex-in-french-apa-style 
+% - http://latex-community.org/forum/viewtopic.php?f=5&t=20343 
 \ifthenelse{\equal{\package@bybstyle}{apa}}{
 	\DeclareLanguageMapping{\languagename}{\languagename-apa}
 	% \DeclareCaseLangs
