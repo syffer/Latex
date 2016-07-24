@@ -165,8 +165,8 @@
 % ********************************************************************
 \usepackage{amsmath}
 \usepackage{amssymb}	% principaux symboles + amsfonts (automatique)
-\usepackage{mathtools}	% améliore amsmath 
-\usepackage{mathrsfs}	% Police calligraphique \mathscr{A} 
+%\usepackage{mathtools}	% améliore amsmath 
+%\usepackage{mathrsfs}	% Police calligraphique \mathscr{A} 
 %\usepackage{amsthm}	% theoremes 
 %\usepackage{theorem}
 \usepackage{calc}	% permet les calcules avec les compteurs latex
@@ -800,10 +800,12 @@
 	%menucolor = red, 
 	%runcolor = cyan, 
 	%urlcolor = magenta, 
-	pdfauthor = {Maxime PINEAU}, 
-	% pdftitle = {}, 
 ]{hyperref} 
 
+\hypersetup{
+	pdfauthor = {Maxime PINEAU}, 
+	% pdftitle = {}, 
+}
 
 % packages après hyperref
 
@@ -930,7 +932,7 @@
 \ifbool{package@debug}{
 	
 	% afficher packages et leurs versions dans le fichier .log 
-	\listfiles 
+	%\listfiles 
 	
 	% met une barre noire lors d'un warning "Overfull \hbox" 
 	\overfullrule=2cm 		
@@ -940,17 +942,14 @@
 
 	% afficher les labels 
 	% - http://tex.stackexchange.com/questions/148579/tweak-showlabels-showkeys-wrap-the-label 
-	\usepackage[inline]{showlabels} 
-	\showlabels{cite}
-	\showlabels{ref}
+	%\usepackage[inline]{showlabels} 
+	%\showlabels{cite}
+	%\showlabels{ref}
 	%\showlabels{pageref}
+	%\renewcommand{\showlabelfont}{\raggedright\normalfont\small\ttfamily\color{gray}}
+	%\renewcommand{\showlabelsetlabel}[1]{{\showlabelfont \{#1\}}} 	% ajouter {}
+	%\renewcommand{\showlabelrefline}{\hrule width 0pt height 1.6ex depth 0pt} 	% supprimer |
 
-	\renewcommand{\showlabelfont}{\raggedright\normalfont\small\ttfamily\color{gray}}
-	\renewcommand{\showlabelsetlabel}[1]{{\showlabelfont \{#1\}}} 	% ajouter {}
-	\renewcommand{\showlabelrefline}{\hrule width 0pt height 1.6ex depth 0pt} 	% supprimer |
-
-	%\usepackage[color]{showkeys}	% afficher les noms des références à coté du lien 
-	%\usepackage{showidx}	% afficher les index dans la marge où ils sont utilisés
 }
 
 
