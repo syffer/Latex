@@ -854,13 +854,19 @@
 \usepackage[xindy, footnote, toc]{glossaries}	% footnote (mots dans le footer)
 % toc, section=part => attention, va ajouter une page de partie
 \glstoctrue 
-\setglossarystyle{listgroup} 	% ordonner alphabétiquement, en les séparant (A, B, C, ...) 
-\makeglossaries					% permet de générer le glossaire
+\setglossarystyle{listhypergroup} 	% ordonner alphabétiquement, en les séparant (A, B, C, ...) 
+\makeglossaries						% permet de générer le glossaire
 
 % modifier header glossaire (\leftmark seulement)
 % - http://tex.stackexchange.com/questions/78704/make-the-glossary-title-upper-case-in-header 
 \renewcommand{\glossarymark}[1]{ 
 	\markboth{#1}{}
+}
+
+% navigation list à droite 
+% - http://tex.stackexchange.com/questions/296202/list-of-letter-not-folding-in-glossaries 
+\renewcommand{\glossaryheader}{
+	\item \parbox{0.9\textwidth}{\hfill \glsnavigation}
 }
 
 
