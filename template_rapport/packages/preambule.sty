@@ -84,9 +84,12 @@
 %\ProcessOptions\relax
 \ProcessKeyvalOptions* 
 
-\PassOptionsToPackage{\package@languages}{babel}
-\PassOptionsToPackage{\package@languages}{varioref}
-\PassOptionsToPackage{\package@languages}{cleveref}
+% passage d'options aux packages 
+% utilisation de '\expendafter' pour pouvoir écrire languages={english, french} (espace) 
+% - http://northstar-www.dartmouth.edu/doc/texmf-dist/doc/latex/oberdiek/example-mycolorsetup.sty 
+\expandafter\PassOptionsToPackage\expandafter{\package@languages}{babel}
+\expandafter\PassOptionsToPackage\expandafter{\package@languages}{varioref}
+\expandafter\PassOptionsToPackage\expandafter{\package@languages}{cleveref}
 
 
 
