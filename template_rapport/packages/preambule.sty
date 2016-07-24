@@ -406,17 +406,27 @@
 % (1) biblio in toc by default (exept when passing arguments : heading=bibintoc) 
 % - http://tex.stackexchange.com/questions/89884/bibliography-and-headers-with-titleps-and-biblatex 
 % (2) afficher toute la bibliographie même celle non utilisées
-% (3) modifier header bibliographie (avant \leftmark = \rightmark = name)
-% - http://tex.stackexchange.com/questions/113014/removing-section-name-in-heading-of-reference-page 
 \let\oldPrintbibliography\printbibliography
 \renewcommand*{\printbibliography}[1][heading=bibintoc]{
 	\nocite{*}	% affiche les références non utilisées également 
-
-	\markboth{\leftmark}{} 	% modifier header bibliographie (References)
-
 	\oldPrintbibliography[#1]
+}
 
-	\markboth{\leftmark}{}	% modifier header bibliographie (Bibliography)
+% modifier header bibliographie 
+% remplacer '\markboth{#1}{#1}' par '\markboth{#1}{}'
+% - http://tex.stackexchange.com/questions/113014/removing-section-name-in-heading-of-reference-page 
+\ifundef{\chapter}{
+	\defbibheading{bibintoc}[\refname]{
+		\section*{#1}
+		\addcontentsline{toc}{section}{#1}
+		\markboth{#1}{}
+	}
+}{
+	\defbibheading{bibintoc}[\bibname]{
+		\chapter*{#1}
+		\addcontentsline{toc}{chapter}{#1}
+		\markboth{#1}{}
+	}
 }
 
 % pour la gestion des guillemets français.
@@ -844,7 +854,7 @@
 \usepackage[xindy, footnote, toc]{glossaries}	% footnote (mots dans le footer)
 % toc, section=part => attention, va ajouter une page de partie
 \glstoctrue 
-\setglossarystyle{listgroup} 	% ordonner alphabétiquement, en les séparant (A, B, C, ...)
+\setglossarystyle{listgroup} 	% ordonner alphabétiquement, en les séparant (A, B, C, ...) 
 \makeglossaries					% permet de générer le glossaire
 
 % modifier header glossaire (\leftmark seulement)
