@@ -1,7 +1,7 @@
 \RequirePackage[l2tabu, orthodox]{nag}
 \documentclass[11pt, a4paper]{article}
 
-\usepackage[colorlinks, debug]{packages/preambule}  
+\usepackage[colorlinks, debug, languages={english,french}]{packages/preambule}  
 \input{glossaire/termes} 
 \addbibresource{bibliographie/bibliographie.bib} 
 % https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#biblatex
@@ -20,7 +20,6 @@
 \pagenumbering{arabic} 	% numérotation 1, 2, 3
 \pagestyle{fancy}		% on remet le header et footer
 
-
 %\input{pages/introduction}
 %
 %
@@ -29,15 +28,19 @@
 
 
 %\input{pages/exemples/labels}
-\input{pages/exemples/codes}
+%\input{pages/exemples/codes}
 %\input{pages/exemples/tableaux}
 %\input{pages/exemples/figures}
-\input{pages/exemples/footnotes}
+%\input{pages/exemples/footnotes}
 %\input{pages/exemples/math}
+
 
 \gls{mot} \cite{bib:reinforcement_learning_in_robotics}
 
+
+\newpage 
 \layout
+
 
 
 \printbibliography 

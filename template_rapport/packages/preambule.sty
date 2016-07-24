@@ -2,6 +2,9 @@
 % auteur : Maxime PINEAU
 % version : 2.2
 % 
+% biber build/% 	(avant: biber --output-directory=./build %)
+% makeglossaries -d ./build %  
+%
 % mise à jour 2.2 : 
 % - mathtools 
 % - varioref + hyperref + cleveref + babel (passage de la langue)
@@ -98,6 +101,15 @@
 
 
 % ********************************************************************
+% Accents
+% ********************************************************************
+\usepackage[T1]{fontenc}	% "font" utilisé pour afficher les caractères
+\usepackage[utf8]{inputenc} % permet d'écrire les accents au clavier
+% option de "inputenc" doit correspondre au format de sauvegarde du fichier 
+
+
+
+% ********************************************************************
 % Internationnalisation 
 % - langue passée avec kvoptions 
 % - http://tex.stackexchange.com/questions/30013/pass-keyval-string-option-to-babel/30150#30150
@@ -105,6 +117,7 @@
 \usepackage{babel}	% [\package@langue] 
 \usepackage{iflang}	% IfLanguagePatterns{}{then}{else} \IfLanguageName
 
+% IfLanguageFamilyFrench 
 \IfLanguageName{french}{
 	\frenchbsetup{StandardLists=true} 	% evite erreurs de personalisation listes
 }{}
@@ -114,15 +127,6 @@
 % - https://fr.wikibooks.org/wiki/LaTeX/%C3%89crire_de_la_physique 
 \usepackage[autolanguage]{numprint}	% selon la langue (\numprint[unite]), après babel !
 \usepackage[detect-all]{siunitx} 	% unités et format (km-1, 1/km) : \num \SI{10}{\hertz}
-
-
-
-% ********************************************************************
-% Accents
-% ********************************************************************
-\usepackage[T1]{fontenc}	% "font" utilisé pour afficher les caractères
-\usepackage[utf8]{inputenc} % permet d'écrire les accents au clavier
-% option de "inputenc" doit correspondre au format de sauvegarde du fichier 
 
 
 
@@ -282,7 +286,7 @@
 % ********************************************************************
 \usepackage{graphicx}	% pour inclure les images
 \usepackage{float} 		% placement H pour les figures
-\usepackage{subcaption}	% placer plusieurs figures cote à cote 
+%\usepackage{subcaption}% placer plusieurs figures cote à cote (loaded with caption)
 \usepackage{wrapfig}	% faire flotter une figure dans un paragraphe
 \usepackage{grffile}	% autorise les " " dans les noms 
 %\graphicspath{ {./images/} }   % répertoire des images par défaut
@@ -322,7 +326,8 @@
 % Notes de bas de pages
 % ********************************************************************
 \usepackage{footnote} 			% \begin{savenotes} pour dans tableaux 
-%\makesavenoteenv{tabular} 		% sauvegarder les footnotes des tableaux automatiquement 
+\makesavenoteenv{table}			% sauvegarder les footnotes des tableaux automatiquement
+\makesavenoteenv{tabular} 		
 \usepackage[bottom]{footmisc}	% footnote toujours collé en bas de page 
 \usepackage[multiple]{fnpct}	% multiple footnotes '1, 2' avec \footnote{1;2}
 % - fnpct incompatible avec footnote : \makesavenoteenv 
@@ -920,6 +925,9 @@
 % ********************************************************************
 
 \ifbool{package@debug}{
+	
+	% afficher packages et leurs versions dans le fichier .log 
+	\listfiles 
 	
 	% met une barre noire lors d'un warning "Overfull \hbox" 
 	\overfullrule=2cm 		
