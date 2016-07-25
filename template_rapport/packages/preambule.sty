@@ -98,8 +98,10 @@
 % ********************************************************************
 
 % Marges de la page
-% - 'headheight' augmenté afin d'éviter des warnings
+% - 'headheight' augmenté afin d'éviter des warnings 
+% - fullpage : tout en 1in 
 \usepackage[top=0.7in, bottom=0.7in, left=0.8in, right=0.8in, headheight=27.06pt]{geometry} 
+
 
 
 
@@ -866,7 +868,7 @@
 % navigation list à droite 
 % - http://tex.stackexchange.com/questions/296202/list-of-letter-not-folding-in-glossaries 
 \renewcommand{\glossaryheader}{
-	\item \parbox{0.9\textwidth}{\hfill \glsnavigation}
+	\item \parbox{0.9\textwidth}{\begin{flushright} \glsnavigation \end{flushright}}
 }
 
 
