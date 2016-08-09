@@ -53,7 +53,7 @@
 \RequirePackage{atveryend}  % chargé pour éviter erreurs entre pagelst et etoolbox
 \RequirePackage{etoolbox}	% \newtoggle, \toggletrue, \ifbool, \iftoggle 
 \RequirePackage{keyval}		% key=val options
-\RequirePackage{kvoptions}	% utilisation d'option key=val pour les packages 
+\RequirePackage{kvoptions}	% option key=val pour packages 
 
 
 % ********************************************************************
@@ -70,7 +70,7 @@
 \DeclareBoolOption[false]{debug}		% affiche informations de debug (défaut: false) 
 \DeclareBoolOption[false]{minitoc}		% utiliser minitoc entre les chapitres (non fini)
 \DeclareStringOption[alphabetic]{bibstyle}[alphabetic] 
-\DeclareStringOption[english,french]{languages}[french] % languages={english,french} 
+\DeclareStringOption[english,french]{languages}[french] % languages={english, french} 
 
 % autres options 
 % \DeclareOption* 
@@ -97,8 +97,8 @@
 % ********************************************************************
 
 % Marges de la page
+% - package fullpage : tout en 1in 
 % - 'headheight' augmenté afin d'éviter des warnings 
-% - fullpage : tout en 1in 
 \usepackage[top=0.7in, bottom=0.7in, left=0.8in, right=0.8in, headheight=27.06pt]{geometry} 
 
 
@@ -119,9 +119,9 @@
 % - http://tex.stackexchange.com/questions/30013/pass-keyval-string-option-to-babel/30150#30150
 % ********************************************************************
 \usepackage{babel}	% [\package@langue] 
-\usepackage{iflang}	% IfLanguagePatterns{}{then}{else} \IfLanguageName
+\usepackage{iflang}	% IfLanguageName{}{then}{else} 
 
-% IfLanguageFamilyFrench 
+% IfLanguageFamilyFrench (v1.7)
 \IfLanguageName{french}{
 	\frenchbsetup{StandardLists=true} 	% evite erreurs de personalisation listes
 }{}
@@ -138,7 +138,7 @@
 % Tout ce qui est textuel 
 % ********************************************************************
 \usepackage{microtype} 	% améliore espace entre mots et lettres (peu visible), plus facile à lire 
-\usepackage{mathptmx}	% font family to times (\usepackage{pslatex} time new roman, old package)
+\usepackage{mathptmx}	% font family to times 
 \usepackage{indentfirst}% indente le premier paragraphe (ce qui n'est pas le cas par défaut)
 \usepackage{setspace}	% espace entre les lignes (\onehalfspacing \singlespacing \doublespacing \setstretch{<factor>})
 
@@ -196,8 +196,8 @@
 % ********************************************************************
 \usepackage{pdfpages}	% pour incorporer un fichier PDF
 \usepackage{url}		% comme une balise <a>
-%\usepackage{import}	% importer fichiers de façon plus précise ( \import{dossier le contenant}{nom fichier} )
-\usepackage{comment}	% commentaires multi-lignes ( \begin{comment} )
+%\usepackage{import}	% importer fichiers de façon plus précise (\import{dossier le contenant}{nom fichier})
+\usepackage{comment}	% commentaires multi-lignes (\begin{comment})
 \usepackage{authblk}	% multiples auteurs avec différentes affiliations (\author \affil \author[] \affil[])
 
 
@@ -246,7 +246,7 @@
 % Table of Contents  
 % ******************************************************************** 
 \usepackage[nottoc]{tocbibind} 	% ajoute lot et lof dans la toc 
-%\usepackage{tocloft}	% to control the typographic design of toc, lof, lot
+%\usepackage{tocloft}	% to control typographic design of toc, lof 
 
 % modification header lof lot lol 
 % - http://tex.stackexchange.com/questions/204974/how-to-change-the-appearance-of-listof-headers 
@@ -267,7 +267,6 @@
 
 % on essaie d'imiter la présentation de Babel
 % voir : http://daniel.flipo.free.fr/frenchb/frenchb-doc.pdf
-%\ifthenelse{\equal{\package@langue}{french}} {
 \newlength\mylabelwidth
 \newcommand*{\mylabel}{\textemdash}  % ou \textendash (tiret plus court)
 \settowidth{\mylabelwidth}{\mylabel}
@@ -290,11 +289,11 @@
 % ********************************************************************
 \usepackage{graphicx}	% pour inclure les images
 \usepackage{float} 		% placement H pour les figures
-%\usepackage{subcaption}% placer plusieurs figures cote à cote (loaded with caption)
 \usepackage{wrapfig}	% faire flotter une figure dans un paragraphe
 \usepackage{grffile}	% autorise les " " dans les noms 
-%\graphicspath{ {./images/} }   % répertoire des images par défaut
 \usepackage[font=small, labelfont=bf]{caption}
+%\usepackage{subcaption}% placer plusieurs figures cote à cote (loaded with caption)
+%\graphicspath{ {./images/} }   % répertoire des images par défaut
 
 
 
@@ -312,7 +311,7 @@
 \usepackage{makecell}	% \thead 
 %\usepackage{hhline}	% nouvelle gestion des lignes horizontales 
 
-% prochaines lignes pour palier à certains défauts des tableaux standards 
+% palier à certains défauts des tableaux standards 
 \setcellgapes{1pt}  	
 \makegapedcells
 \newcolumntype{R}[1]{>{\raggedleft\arraybackslash }b{#1}}
@@ -352,9 +351,6 @@
 		\shorthandoff{;}
 	}
 }
-
-% autre solution 
-% - http://tex.stackexchange.com/questions/40072/incompatibility-between-footmisc-option-multiple-and-hyperref 
 
 
 
@@ -880,14 +876,17 @@
 
 % new entry style, display entries description in footnote at the first time (except accronym)
 % - /!\ do not remove the '%'
-\let\OLDglsentryfirst\glsentryfirst
+% - http://tug.ctan.org/macros/latex/contrib/glossaries/glossaries-user.html#sec:customacronym 
 \newacronymstyle{long-short-fn}{%
-	\GlsUseAcrEntryDispStyle{long-short}%
+	%\GlsUseAcrEntryDispStyle{long-short}%
+	\ifglshaslong{\glslabel}{\glsgenacfmt}{%
+	    \glsgenentryfmt%
+	    \ifglsused{\glslabel}{}{%
+	        \footnote{\glsentrydesc{\glslabel}}
+	    }%
+    }%
 }{%
 	\GlsUseAcrStyleDefs{long-short}%
-	\renewcommand*{\glsentryfirst}[1]{% \ifglshaslong check if accronym 
-		\OLDglsentryfirst{##1}\ifglshaslong{##1}{}{\footnote{ \glsentrydesc{##1}}}%
-	}%
 }
 
 \setacronymstyle{long-short-fn}
@@ -938,7 +937,8 @@
 % Style plain
 % - utilisé lors d'un début de chapitre
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\fancypagestyle{plain}{	 % reprends les champs précédents si non défini ici
+\fancypagestyle{plain}{	
+	% reprends les champs précédents si non défini ici
 	\fancyhead[L]{}
 	\fancyhead[R]{}	
 
