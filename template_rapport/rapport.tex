@@ -2,10 +2,12 @@
 \documentclass[11pt, a4paper]{article}
 
 \usepackage[colorlinks, debug, languages = english]{packages/preambule}  
+
+
 \input{glossaire/termes} % \loadglsentries
 \addbibresource{bibliographie/bibliographie.bib} 
 
-%\input{glossaire/test} 
+\input{glossaire/test} 
 %\addbibresource{bibliographie/test.bib} 
 
 
@@ -27,7 +29,7 @@
 %
 %
 %\input{pages/conclusion} 
-
+\gls{mot} 
 
 %\input{pages/exemples/labels}
 %\input{pages/exemples/codes}
@@ -53,7 +55,6 @@
 %\part*{Annexes}
 %\input{pages/annexes/annexes}
 
-
-
+%\glsaddallunused 
 
 \end{document}

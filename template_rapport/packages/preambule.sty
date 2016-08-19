@@ -177,8 +177,9 @@
 % ********************************************************************
 % Couleurs
 % ********************************************************************
-\usepackage[usenames, dvipsnames, svgnames, table]{xcolor}
-% pour avoir les noms : http://latexcolor.com/ 
+\usepackage[usenames, dvipsnames, svgnames, x11names, table]{xcolor}
+% - couleurs prédéfinit : http://ctan.imsc.res.in/macros/latex/contrib/xcolor/xcolor.pdf#page=38
+% - création couleurs connues : http://latexcolor.com/ 
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 \definecolor{cornsilk}{rgb}{1.0, 0.97, 0.86}
 \definecolor{sublim background}{RGB}{39, 40, 34}
@@ -292,7 +293,7 @@
 \usepackage{wrapfig}	% faire flotter une figure dans un paragraphe
 \usepackage{grffile}	% autorise les " " dans les noms 
 \usepackage[font=small, labelfont=bf]{caption}
-%\usepackage{subcaption}% placer plusieurs figures cote à cote (loaded with caption)
+\usepackage{subcaption}% placer plusieurs figures cote à cote 
 %\graphicspath{ {./images/} }   % répertoire des images par défaut
 
 
@@ -802,15 +803,16 @@
 	colorlinks = \ifbool{package@colorlinks}{true}{false},  
 	linkcolor = blue,	%red 
 	citecolor = red, %green
+	urlcolor = Green4, %magenta, 
 	%anchorcolor = black, 
 	%filecolor = cyan,
 	%menucolor = red, 
 	%runcolor = cyan, 
-	%urlcolor = magenta, 
 ]{hyperref} 
 
 \hypersetup{
 	pdfauthor = {Maxime PINEAU}, 
+	pdfborder = {0 0 0}, 	% remove ugly boxes 
 	% pdftitle = {}, 
 }
 
@@ -848,19 +850,26 @@
 % ********************************************************************
 % Glossaire
 % ********************************************************************
-\usepackage[xindy, toc]{glossaries} 
-% toc, section=part => attention, va ajouter une page de partie
-\makeglossaries		% permet de générer le glossaire
+\usepackage[xindy, toc]{glossaries} % section=part => attention, ajoute une page de partie
+\makeglossaries						% générer le glossaire
 
 % modifier header glossaire (\leftmark seulement)
 % - http://tex.stackexchange.com/questions/78704/make-the-glossary-title-upper-case-in-header 
-\renewcommand{\glossarymark}[1]{ 
+\renewcommand{\glsglossarymark}[1]{ 
 	\markboth{#1}{}
 }
 
 % new glossary style 
 % - ordonner alphabétiquement, en les séparant (A, B, C, ...) 
 % - navigation list at the right 
+% - ajout de "page"/"pages" dans la number list (location list)
+\newcommand{\formattingnumberlist}[1]{% \glsXpageXglsnumberformat
+	\StrCount{\detokenize{#1}}{\detokenize{glsnumberformat}}[\appearances]%
+	\ifnum\appearances=1 \emph{page} \fi%
+	\ifnum\appearances>1 \emph{pages} \fi%
+	#1%
+}
+
 \newglossarystyle{rightlisthypergroup}{ 
 	\setglossarystyle{listhypergroup} 
 
@@ -870,18 +879,26 @@
 		\item \parbox{0.9\textwidth}{\begin{flushright} \glsnavigation \end{flushright}}
 	}
 
+	% ajout de "page"/"pages"
+	% - http://tex.stackexchange.com/questions/256152/glossaries-modified-page-list-back-references 
+	\renewcommand*{\glossentry}[2]{%
+        \item[\glsentryitem{##1}%
+        \glstarget{##1}{\glossentryname{##1}}]
+        \glossentrydesc{##1}\glspostdescription\space \formattingnumberlist{##2}%
+    }%
 }
 
-\setglossarystyle{rightlisthypergroup} 	
+\setglossarystyle{rightlisthypergroup} 
+
 
 % new entry style, display entries description in footnote at the first time (except accronym)
 % - /!\ do not remove the '%'
 % - http://tug.ctan.org/macros/latex/contrib/glossaries/glossaries-user.html#sec:customacronym 
 \newacronymstyle{long-short-fn}{%
 	%\GlsUseAcrEntryDispStyle{long-short}%
-	\ifglshaslong{\glslabel}{\glsgenacfmt}{%
+	\ifglshaslong{\glslabel}{\glsgenacfmt}{% if acronym
 	    \glsgenentryfmt%
-	    \ifglsused{\glslabel}{}{%
+	    \ifglsused{\glslabel}{}{% if first time used 
 	        \footnote{\glsentrydesc{\glslabel}}%
 	    }%
     }%
