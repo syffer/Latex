@@ -255,6 +255,11 @@
 	\markboth{#1}{}
 }
 
+% modification header toc 
+% - seulement si nottoc
+% - http://tex.stackexchange.com/questions/121688/remove-all-caps-toc-lof-in-header 
+% - http://tex.stackexchange.com/questions/9348/tableofcontents-and-listoffigures-suppress-header-after-first-page 
+%\addtocontents{toc}{\protect\markboth{\leftmark}{}}
 
 
 
@@ -917,10 +922,6 @@
 \usepackage{fancyhdr}	% ajoute les styles pour les header / footer
 \usepackage{pageslts}	% pour compter le nombre de pages 	
 
-\fancyhf{} 			% to clear all predefined fields (compatibilité package nag, chercheur d'erreur)
-\pagestyle{fancy}	% utiliser style "fancy" (header/footer)
-%\pagenumbering{arabic}
-
 % obtenir le schema de numérotation actuel et sa dernière page 
 \newcommand{\currentNumberingScheme}{\expandafter\string\pagesLTS@pnc}
 \newcommand{\lastPageCurrentNumberingScheme}{pagesLTS.\currentNumberingScheme}
@@ -965,20 +966,64 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Style à utiliser 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fancypagestyle{myfancy}{
+    % 
+    \fancyhead[L]{\nouppercase{\rightmark}} 
+    \fancyhead[R]{\nouppercase{\leftmark}}
+
+    \renewcommand{\headrulewidth}{0.4pt}	% trait horizontal en-tête
+    \renewcommand{\footrulewidth}{0.4pt}	% trait horizontal pied de page
+
+    \fancyfoot[L]{\emph{École Polytechnique de l'Université de Nantes, Département Informatique}}
+    \fancyfoot[C]{}	% ou : \cfoot
+    \fancyfoot[R]{ Page ~\thepage ~ / ~\thecurrentlastpage }
+    
+    % 
+    \fancypagestyle{plain}{
+        \fancyhead[L]{}
+	    \fancyhead[R]{}	
+
+	    \renewcommand{\headrulewidth}{0pt}
+    }
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Style Empty 
+% - pas de header / footer 
+% - sur les pages normal ET plain 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\fancypagestyle{empty}{
+    %
+    \fancyhf{} 
+
+    \renewcommand{\headrulewidth}{0pt}	% trait horizontal en-tête
+    \renewcommand{\footrulewidth}{0pt}	% trait horizontal pied de page
+    
+	%
+    \fancypagestyle{plain}{
+        %\renewcommand{\footrulewidth}{0pt}
+    }
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Style annexes
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \fancypagestyle{appendix}{
 	% affiche le compteur en .1, .2, .3
 	\renewcommand*{\thepage}{.\arabic{page}}	
 	
-	% on modifie le style plain 
-	\fancypagestyle{plain}{
-		\fancyhead[R]{}
-		\renewcommand{\headrulewidth}{0pt}
-	}
-
+	\pagestyle{myfancy}
 }
 
+
+% défaut 
+\fancyhf{} 			% to clear all predefined fields (compatibilité package nag, chercheur d'erreur)
+\pagestyle{myfancy}	% utiliser style "fancy" (header/footer)
+%\pagenumbering{arabic}
 
 
 
