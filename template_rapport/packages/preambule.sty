@@ -259,7 +259,13 @@
 % - seulement si nottoc
 % - http://tex.stackexchange.com/questions/121688/remove-all-caps-toc-lof-in-header 
 % - http://tex.stackexchange.com/questions/9348/tableofcontents-and-listoffigures-suppress-header-after-first-page 
-%\addtocontents{toc}{\protect\markboth{\leftmark}{}}
+% - http://tex.stackexchange.com/questions/152773/please-tutor-the-usage-of-patchcmd-and-xpatch 
+% - http://tex.stackexchange.com/questions/36955/display-source-for-a-command 
+\patchcmd{\tableofcontents}
+	{\@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}} % code to replace
+	{\@mkboth{\MakeUppercase\contentsname}{}}							 % replacement code 
+	{}	% success
+	{}	% failure 
 
 
 
